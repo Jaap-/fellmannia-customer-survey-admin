@@ -92,11 +92,21 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+#login-box {
+    display: none;
+}
 
+#admin-panel-container {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    margin: auto;
+}
 
-
-
-
+#admin-panel-menu {
+    width: 100%;
+    height: 50px;
+}
 
 
 
