@@ -14,31 +14,52 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/admin.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
-        
-        <div id="login-box">
-            <p>Sisäänkirjautuminen</p>
-            <form id="login-form">
-                <div id="login-email-container">Email: <input type="text" id="login-email"></div>
-                <div id="login-pwd-container">Salasana: <input type="password" id="login-pwd"></div>
-                <input type="submit" id="login-submit" value="Kirjaudu">
-            </form>
+        <div id="login-box-container">
+            <div id="login-box">
+                <p>Sisäänkirjautuminen</p>
+                <form id="login-form">
+                    <div id="login-email-container">Email: <input type="text" id="login-email"></div>
+                    <div id="login-pwd-container">Salasana: <input type="password" id="login-pwd"></div>
+                    <input type="submit" id="login-submit" value="Kirjaudu">
+                </form>
+            </div>
         </div>
         
         <div id="admin-panel-container">
             <div id="admin-panel-menu">
-                
+                <div class="admin-menu-link-wrapper"><a class="admin-menu-link" href="#">Yhteenveto</a></div>
+                <div class="admin-menu-link-wrapper"><a class="admin-menu-link" href="#">Yhteenveto</a></div>
+                <div class="admin-menu-link-wrapper"><a class="admin-menu-link" href="#">Diagrammi</a></div>
             </div>
             
             <div id="admin-panel-cats">
-                <div class="admin-panel-cat"></div>
-                <div class="admin-panel-cat"></div>
-                <div class="admin-panel-cat"></div>
+                <!--
+                <div class="admin-panel-cat">
+                    <div class="admin-panel-cat-content">
+                        <h3 class="category-title">Ravintolat</h3>
+                        <div class="sphere green clearfix" style="width: 250px; height: 250px;"><p>50 %</p></div>
+                        <div class="sphere yellow clearfix" style="width: 100px; height: 100px;"><p>20 %</p></div>
+                        <div class="sphere grey clearfix" style="width: 50px; height: 50px;"><p>10 %</p></div>
+                        <div class="category-thumb"></div>
+                        <div class="category-data"></div>
+                    </div>
+                </div>
+                
+                <div class="admin-panel-cat">
+                    
+                </div>
+                
+                <div class="admin-panel-cat">
+                    
+                </div>
+                -->
             </div>
         </div>
 
