@@ -54,15 +54,6 @@ h3.category-title {
             color-stop(0.20, #69696C),
             color-stop(0.96, #393637)
     );
-    
-    /*
-    border-color: #646665;
-    border-style: solid;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 0px;
-    border-right-width: 0px;
-    */
 }
 
 .admin-menu-link-wrapper {
@@ -79,7 +70,8 @@ h3.category-title {
 a.admin-menu-link {
     color: white;
     text-decoration: none;
-    font-size: 16px;
+    font-family: 'Antic Slab', serif;
+    font-size: 22px;
 }
 
 #admin-panel-cats {
@@ -126,6 +118,11 @@ a.admin-menu-link {
     text-align: center;
 }
 
+.content-balls-wrapper {
+    width: 77%;
+    margin: auto;
+}
+
 .category-thumb {
     margin-top: 40px;
     margin-bottom: 50px;
@@ -135,7 +132,7 @@ a.admin-menu-link {
 
 .category-data {
     text-align: left;
-    width: 170px;
+    width: 175px;
     margin: auto;
     color: #FFF;
     font-family: 'Antic Slab', serif;
@@ -159,6 +156,9 @@ a.admin-menu-link {
     border-radius:9999px;
     _outline:1px solid #f00;
     
+    -webkit-box-shadow:  2px 7px 10px 3px rgba(0, 0, 0, 0.2);
+    box-shadow:  2px 7px 10px 3px rgba(0, 0, 0, 0.2);
+    
     margin: auto;
     position: relative;
 }
@@ -178,15 +178,15 @@ a.admin-menu-link {
 
   background: #ccc;
 
-  background: -webkit-radial-gradient(50% 50%, #fff, #ccc);
+  background: -webkit-radial-gradient(50% 50%, #ccc, #fff);
 
-  background: -moz-radial-gradient(50% 50%, #fff, #ccc);
+  background: -moz-radial-gradient(50% 50%, #ccc, #fff);
 
-  background: -ms-radial-gradient(80% 80% #fff, #ccc);
+  background: -ms-radial-gradient(80% 80% #ccc, #fff);
 
-  background: -o-radial-gradient(80% 80% #fff, #ccc);
+  background: -o-radial-gradient(80% 80% #ccc, #fff);
 
-  background: radial-gradient(50% 50%, #fff, #ccc);
+  background: radial-gradient(50% 50%, #ccc, #fff);
 
 }
 
@@ -194,15 +194,15 @@ a.admin-menu-link {
 
   background: #ffa;
 
-  background: -webkit-radial-gradient(50% 50%, #fff, #ffa);
+  background: -webkit-radial-gradient(50% 50%, #ffa, #fff);
 
-  background: -moz-radial-gradient(50% 50%, #fff, #ffa);
+  background: -moz-radial-gradient(50% 50%, #ffa, #fff);
 
-  background: -ms-radial-gradient(100% 100%, #fff, #ffa);
+  background: -ms-radial-gradient(100% 100%, #ffa, #fff);
 
-  background: -o-radial-gradient(100% 100%, #fff, #ffa);
+  background: -o-radial-gradient(100% 100%, #ffa, #fff);
 
-  background: radial-gradient(50% 50%, #fff, #ffa);
+  background: radial-gradient(50% 50%, #ffa, #fff);
 
 }
 
@@ -210,14 +210,14 @@ a.admin-menu-link {
 
   background: #cfc;
 
-  background: -webkit-radial-gradient(50% 50%, #fff, #cfc);
+  background: -webkit-radial-gradient(50% 50%, #cfc, #fff);
 
-  background: -moz-radial-gradient(50% 50%, #fff, #cfc);
+  background: -moz-radial-gradient(50% 50%, #cfc, #fff);
 
-  background: -ms-radial-gradient(100% 100%, #fff, #cfc);
+  background: -ms-radial-gradient(100% 100%, #cfc, #fff);
 
-  background: -o-radial-gradient(100% 100%, #fff, #cfc);
+  background: -o-radial-gradient(100% 100%, #cfc, #fff);
 
-  background: radial-gradient(50% 50%, #fff, #cfc);
+  background: radial-gradient(50% 50%, #cfc, #fff);
 
 }

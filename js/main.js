@@ -2,12 +2,16 @@ window.serverUrl = 'http://lamk.net/api/';
 
 var settings = {
     
-    maxsize: 300,
-    fontscale: 12
+    maxsize: 320,
+    minsize: 10, // prosentteina columnin leveydestä
+    fontscale: 4,
+    minfont: 14
   
 }
 
 $(document).ready(function() {
+    
+    settings.maxsize = Math.floor($(window).width() * 0.33 * 0.77);
     
     // initial login check
     handleLogin(ajaxCall('logincheck'));
@@ -16,6 +20,18 @@ $(document).ready(function() {
         event.preventDefault();
         
         doLogin();
+    });
+    
+    $(window).resize(function() {
+        settings.maxsize = Math.floor($(window).width() * 0.33 * 0.77);
+        
+        $("div.sphere").each(function() {
+            var percent = ( 100 * $(this).width() / $(this).parent().width() );
+            $(this).css({"height": $(this).width() + "px"});
+            $(this).css({'font-size': scaleFontSize(percent)});
+        });
+        
+        centerBallsText();
     });
 });
 
@@ -55,10 +71,12 @@ function renderCategories(cats) {
                 '<div class="admin-panel-cat">\n',
                     '<div class="admin-panel-cat-content">\n',
                         '<h3 class="category-title">'+this.catname+'</h3>\n',
-                        '<div class="sphere green clearfix"><p>'+this.stats.positivepercent+' %</p></div>\n',
-                        '<div class="sphere yellow clearfix"><p>'+this.stats.neutralpercent+' %</p></div>\n',
-                        '<div class="sphere grey clearfix"><p>'+this.stats.negativepercent+' %</p></div>\n',
-                        '<div class="category-thumb"><img src="img/icon_like_positive_active.png" /></div>\n',
+                        '<div class="content-balls-wrapper">\n',
+                            '<div class="sphere green clearfix"><p>'+this.stats.positivepercent+'%</p></div>\n',
+                            '<div class="sphere yellow clearfix"><p>'+this.stats.neutralpercent+'%</p></div>\n',
+                            '<div class="sphere grey clearfix"><p>'+this.stats.negativepercent+'%</p></div>\n',
+                        '</div>\n',
+                        '<div class="category-thumb"><img src="'+getIconImgUrl(this.stats)+'" /></div>\n',
                         '<div class="category-data">\n',
                             '<div>Palautteita yhteensä:<span class="num">'+this.stats.count+'</span></div>\n',
                             '<div>joista</div>\n',
@@ -72,33 +90,27 @@ function renderCategories(cats) {
             
             var $cat = $(html);
             
-            if (this.stats.positivepercent > 0) {
-                $cat.find("div.green").css({
-                    "width": (settings.maxsize * (this.stats.positivepercent / 100)) + "px",
-                    "height": (settings.maxsize * (this.stats.positivepercent / 100)) + "px",
-                    "font-size": Math.floor(settings.maxsize * (this.stats.positivepercent / 100) / settings.fontscale) + "px"
-                });
-            } else {
-                $cat.find("div.green").remove();
-            }
+            // lasketaan pallojen korkeudet taulukkoon
+            var heights = calcBallSizes(this.stats);
+
+            // asetetaan pallojen koot
+            $cat.find("div.green").css({
+                "width": (this.stats.positivepercent < settings.minsize) ? settings.minsize + "%" : this.stats.positivepercent + "%",
+                "height": heights['positivepercent'] + "px",
+                "font-size": scaleFontSize(this.stats.positivepercent) + "px"
+            });
+
+            $cat.find("div.yellow").css({
+                "width": (this.stats.neutralpercent < settings.minsize) ? settings.minsize + "%" : this.stats.neutralpercent + "%",
+                "height": heights['neutralpercent'] + "px",
+                "font-size": scaleFontSize(this.stats.neutralpercent) + "px"
+            });
             
-            if (this.stats.neutralpercent > 0) {
-                $cat.find("div.yellow").css({
-                    "width": (settings.maxsize * (this.stats.neutralpercent / 100)) + "px",
-                    "height": (settings.maxsize * (this.stats.neutralpercent / 100)) + "px"
-                });
-            } else {
-                $cat.find("div.yellow").remove();
-            }
-            
-            if (this.stats.negativepercent > 0) {
-                $cat.find("div.grey").css({
-                    "width": (settings.maxsize * (this.stats.negativepercent / 100)) + "px",
-                    "height": (settings.maxsize * (this.stats.negativepercent / 100)) + "px"
-                });
-            } else {
-                $cat.find("div.grey").remove();
-            }
+            $cat.find("div.grey").css({
+                "width": (this.stats.negativepercent < settings.minsize) ? settings.minsize + "%" : this.stats.negativepercent + "%",
+                "height": heights['negativepercent'] + "px",
+                "font-size": scaleFontSize(this.stats.negativepercent) + "px"
+            });
             $li.append($cat);
             
             i++;
@@ -114,9 +126,8 @@ function renderCategories(cats) {
             $li.appendTo("#admin-panel-slider ul");
         }
         
-        $('.sphere p').each(function() {
-            $(this).css({'position':'relative', 'top':'50%', 'overflow':'hidden', 'margin-top':-(parseInt($(this).height() + 20) / 2) + 'px'});
-        })
+        // keskitetään pallojen teksti pystysuunnassa
+        centerBallsText();
         
         $("#admin-panel-slider li:first").css("display", "block");
         
@@ -126,6 +137,12 @@ function renderCategories(cats) {
     });
     
 }
+
+function scaleBalls() {
+    
+}
+
+/* helper functions */
     
 function ajaxCall(act, email, password) {
     
@@ -144,4 +161,59 @@ function ajaxCall(act, email, password) {
 
     });
 
+}
+
+function getIconImgUrl(data) {
+    var url = "";
+    var maxProp = null;
+    var maxValue = -1;
+    for (var prop in data) {
+        if (prop == 'countpositive' || prop == 'countneutral' ||prop == 'countnegative') {
+            if (data.hasOwnProperty(prop)) {
+                var value = data[prop];
+                if (value > maxValue) {
+                    maxProp = prop;
+                    maxValue = value;
+                }
+            }
+        }
+    }
+    
+    if (maxProp == 'countpositive') {
+        url = "/staff/img/icon_like_positive_active.png"
+    } else if (maxProp == 'countneutral') {
+        url = "/staff/img/icon_like_neutral_active.png"
+    } else if (maxProp == 'countnegative') {
+        url = "/staff/img/icon_like_negative_active.png"
+    }
+    
+    return url;
+}
+
+function calcBallSizes(data) {
+    var ret = {};
+    
+    for (var prop in data) {
+        if (prop == 'positivepercent' || prop == 'neutralpercent' ||prop == 'negativepercent') {
+            if (data.hasOwnProperty(prop)) {
+                var size = parseInt( settings.maxsize * (data[prop] / 100) );
+                
+                ret[prop] = ((settings.minsize * settings.maxsize / 100) > size) ? (settings.minsize * settings.maxsize / 100) : size;
+            }
+        }
+    }
+    
+    return ret;
+}
+
+function scaleFontSize(data) {
+    var size = Math.floor(settings.maxsize * (data / 100) / settings.fontscale);
+    
+    return (settings.minfont > size) ? settings.minfont : size;
+}
+
+function centerBallsText() {
+    $('.sphere p').each(function() {
+        $(this).css({'position':'relative', 'top':'50%', 'overflow':'hidden', 'margin-top':-(parseInt($(this).css('line-height')) / 2) + 'px'});
+    })
 }
