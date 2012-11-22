@@ -3,7 +3,7 @@ window.serverUrl = 'http://lamk.net/api/';
 var settings = {
     
     maxsize: 320,
-    minsize: 10, // prosentteina columnin leveydestä
+    minsize: 12, // prosentteina columnin leveydestä
     fontscale: 4,
     minfont: 14
   
@@ -20,6 +20,13 @@ $(document).ready(function() {
         event.preventDefault();
         
         doLogin();
+    });
+    
+    $(".admin-panel-button").click(function() {
+        $(".admin-panel-button").removeClass("act");
+        $(this).addClass("act");
+        
+        return false;
     });
     
     $(window).resize(function() {

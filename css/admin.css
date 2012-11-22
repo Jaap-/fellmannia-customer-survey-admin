@@ -33,6 +33,7 @@ h3.category-title {
     font-family: 'Antic Slab', serif;
     font-size: 16px;
     margin-bottom: 60px;
+    font-weight: 400;
 }
 
 #admin-panel-menu {
@@ -71,7 +72,84 @@ a.admin-menu-link {
     color: white;
     text-decoration: none;
     font-family: 'Antic Slab', serif;
-    font-size: 22px;
+    font-size: 20px;
+}
+
+#admin-panel-button-container {
+    position: absolute;
+    margin: auto;
+    top: 85px;
+    z-index: 99;
+    width: 100%;
+}
+
+#admin-panel-button-container .act {
+    color: #6c6d70;
+    border: 0;
+    
+    -webkit-box-shadow: inset 3px 3px 5px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 3px 3px 5px 1px rgba(0, 0, 0, 0.1);
+    
+    background-image: linear-gradient(bottom, rgb(206,206,208) 42%, rgb(147,148,151) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(206,206,208) 42%, rgb(147,148,151) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(206,206,208) 42%, rgb(147,148,151) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(206,206,208) 42%, rgb(147,148,151) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(206,206,208) 42%, rgb(147,148,151) 100%);
+
+    background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0.42, rgb(206,206,208)),
+            color-stop(1, rgb(147,148,151))
+    );
+}
+
+.button-wrapper {
+    margin: auto;
+    width: 540px;
+}
+
+.admin-panel-button {
+    background-image: linear-gradient(bottom, rgb(108,109,112) 52%, rgb(207,206,209) 96%);
+    background-image: -o-linear-gradient(bottom, rgb(108,109,112) 52%, rgb(207,206,209) 96%);
+    background-image: -moz-linear-gradient(bottom, rgb(108,109,112) 52%, rgb(207,206,209) 96%);
+    background-image: -webkit-linear-gradient(bottom, rgb(108,109,112) 52%, rgb(207,206,209) 96%);
+    background-image: -ms-linear-gradient(bottom, rgb(108,109,112) 52%, rgb(207,206,209) 96%);
+
+    background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0.52, rgb(108,109,112)),
+            color-stop(0.96, rgb(207,206,209))
+    );
+    
+    border-style: solid;
+    border-width: 0px 0px 2px 0px;
+    border-color: #848588;
+    -webkit-border-radius: 12px;
+    border-radius: 12px;
+    
+    -webkit-box-shadow:  3px 3px 5px 1px rgba(0, 0, 0, 0.2);
+    box-shadow:  3px 3px 5px 1px rgba(0, 0, 0, 0.2);
+    
+    height: 28px;
+    width: 150px;
+    margin: 0px 15px 0px 15px;
+    text-align: center;
+    color: #A9AAAD;
+    font-family: 'Antic Slab', serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    float: left;
+}
+
+.admin-panel-button span {
+    margin-top: 5px;
+    display: inline-block;
 }
 
 #admin-panel-cats {
@@ -146,6 +224,17 @@ a.admin-menu-link {
 .category-data .neutral { color: #ffa; }
 
 .category-data .negative { color: #ccc; }
+
+@media only screen and (max-device-width: 480px) {
+    .category-data {
+        font-size: 12px;
+        width: 150px;
+    }
+    
+    h3.category-title {
+        font-size: 14px;
+    }
+}
 
 /***** BALLS *****/
 
