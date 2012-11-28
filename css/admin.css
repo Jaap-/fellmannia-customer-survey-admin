@@ -152,6 +152,10 @@ a.admin-menu-link {
     display: inline-block;
 }
 
+#admin-panel-slider {
+    min-height: 100%;
+}
+
 #admin-panel-cats {
     height: 100%;
 }
@@ -182,9 +186,10 @@ a.admin-menu-link {
     border-left-width: 1px;
     border-right-width: 1px;
     
-    height: 100%;
     width: 33%;
     float: left;
+    margin-bottom: -99999px;
+    padding-bottom: 99999px;
 }
 
 .admin-panel-cat:nth-child(2) {
@@ -192,12 +197,12 @@ a.admin-menu-link {
 }
 
 .admin-panel-cat-content {
-    margin-top: 150px;
+    margin-top: 180px;
     text-align: center;
 }
 
 .content-balls-wrapper {
-    width: 77%;
+    width: 80%;
     margin: auto;
 }
 

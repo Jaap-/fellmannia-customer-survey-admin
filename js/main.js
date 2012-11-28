@@ -11,7 +11,7 @@ var settings = {
 
 $(document).ready(function() {
     
-    settings.maxsize = Math.floor($(window).width() * 0.33 * 0.77);
+    settings.maxsize = Math.floor($(window).width() / 3 * 0.8);
     
     // initial login check
     handleLogin(ajaxCall('logincheck'));
@@ -203,7 +203,7 @@ function calcBallSizes(data) {
     for (var prop in data) {
         if (prop == 'positivepercent' || prop == 'neutralpercent' ||prop == 'negativepercent') {
             if (data.hasOwnProperty(prop)) {
-                var size = parseInt( settings.maxsize * (data[prop] / 100) );
+                var size = settings.maxsize * (data[prop] / 100);
                 
                 ret[prop] = ((settings.minsize * settings.maxsize / 100) > size) ? (settings.minsize * settings.maxsize / 100) : size;
             }
