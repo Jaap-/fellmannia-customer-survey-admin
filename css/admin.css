@@ -32,7 +32,6 @@ h3.category-title {
     color: white;
     font-family: 'Antic Slab', serif;
     font-size: 16px;
-    margin-bottom: 60px;
     font-weight: 400;
 }
 
@@ -152,15 +151,49 @@ a.admin-menu-link {
     display: inline-block;
 }
 
-#admin-panel-slider {
-    min-height: 100%;
+#admin-panel-arrows-container {
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    height: 100px;
+    top: 45%;
+    text-align: center;
+    display: none;
 }
 
-#admin-panel-cats {
+#admin-panel-arrows-container .arrow {
     height: 100%;
+    color: #FFF;
+    width: 120px;
+    background-color: black;
+    opacity: 0.1;
 }
 
-.admin-panel-cat {
+#admin-panel-arrows-container a {
+    color: #FFF;
+}
+
+#admin-panel-arrows-container .prev {
+    float: left;
+}
+
+#admin-panel-arrows-container .next {
+    float: right;
+}
+
+#admin-panel-arrows-container span {
+    display: inline-block;
+    margin-top: 36px;
+    font-family: 'Antic Slab', serif;
+    font-size: 20px;
+}
+
+#admin-panel-summary {
+    min-height: 100%;
+    background-color: #393637;
+}
+
+#admin-panel-summary .admin-panel-cat {
     background-image: linear-gradient(right , #858689 20%, #5E5D5F 90%);
     background-image: -o-linear-gradient(right , #858689 20%, #5E5D5F 90%);
     background-image: -moz-linear-gradient(right , #858689 20%, #5E5D5F 90%);
@@ -179,24 +212,20 @@ a.admin-menu-link {
     -moz-box-sizing:border-box;
     -webkit-box-sizing:border-box;
     
-    border-color: #525052;
-    border-style: solid;
-    border-top-width: 0px;
-    border-bottom-width: 0px;
-    border-left-width: 1px;
-    border-right-width: 1px;
-    
     width: 33%;
     float: left;
     margin-bottom: -99999px;
     padding-bottom: 99999px;
 }
 
-.admin-panel-cat:nth-child(2) {
+#admin-panel-summary .admin-panel-cat:nth-child(2) {
     width: 34%!important;
+    border-color: #525052;
+    border-style: solid;
+    border-width: 0px 2px 0px 2px;
 }
 
-.admin-panel-cat-content {
+#admin-panel-summary .admin-panel-cat-content {
     margin-top: 180px;
     text-align: center;
 }
@@ -204,6 +233,7 @@ a.admin-menu-link {
 .content-balls-wrapper {
     width: 80%;
     margin: auto;
+    margin-top: 60px;
 }
 
 .category-thumb {
@@ -213,7 +243,7 @@ a.admin-menu-link {
 
 .category-thumb img { width: 35px; }
 
-.category-data {
+#admin-panel-summary .category-data {
     text-align: left;
     width: 175px;
     margin: auto;
@@ -315,3 +345,84 @@ a.admin-menu-link {
   background: radial-gradient(50% 50%, #cfc, #fff);
 
 }
+
+/*** CHARTS ***/
+
+#admin-panel-chart {
+    width: 100%;
+    min-height: 100%;
+    display: none;
+}
+
+#admin-panel-chart .admin-panel-cat-chart {
+    background-image: linear-gradient(bottom, #858689 27%, #5E5D5F 83%);
+    background-image: -o-linear-gradient(bottom, #858689 27%, #5E5D5F 83%);
+    background-image: -moz-linear-gradient(bottom, #858689 27%, #5E5D5F 83%);
+    background-image: -webkit-linear-gradient(bottom, #858689 27%, #5E5D5F 83%);
+    background-image: -ms-linear-gradient(bottom, #858689 27%, #5E5D5F 83%);
+
+    background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0.27, #858689),
+            color-stop(0.83, #5E5D5F)
+    );
+    
+    width: 100%;
+    border-color: #525052;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    padding-bottom: 40px;
+}
+
+#admin-panel-chart .admin-panel-cat-chart:nth-child(1) {
+    padding-top: 150px;
+}
+
+#admin-panel-chart .chart-wrapper {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#admin-panel-chart .chart-data {
+    display: inline-block;
+    position: relative;
+}
+
+#admin-panel-chart h3.category-title {
+    text-align: left;
+    font-weight: 700;
+    margin: 0px 0px 15px 5px;
+}
+
+#admin-panel-chart .tickLabel {
+    font-weight: 700;
+}
+
+#admin-panel-chart .thumbs-wrapper {
+    width: 30px;
+    margin-left: -60px;
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+}
+
+#admin-panel-chart .thumbs-wrapper:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+.thumbs-wrapper img {
+    width: 30px;
+    position: absolute;
+}
+
+.thumbs-wrapper img:nth-child(1) { top: 0; }
+
+.thumbs-wrapper img:nth-child(2) { top: 45%; }
+
+.thumbs-wrapper img:nth-child(3) { bottom: 0; }

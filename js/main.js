@@ -29,8 +29,18 @@ $(document).ready(function() {
         return false;
     });
     
+    /* menun klikkailut */
+    $("#admin-panel-menu a.admin-menu-link").click(function(event) {
+        event.preventDefault();
+        var href = $(this).attr("href").split("#")[1];
+        
+        $(".admin-view").hide();
+        $("#admin-panel-" + href).show();
+    });
+    
+    /* ikkunan koon muuttuessa.. */
     $(window).resize(function() {
-        settings.maxsize = Math.floor($(window).width() * 0.33 * 0.77);
+        settings.maxsize = Math.floor($(window).width() / 3 * 0.8);
         
         $("div.sphere").each(function() {
             var percent = ( 100 * $(this).width() / $(this).parent().width() );
@@ -122,7 +132,7 @@ function renderCategories(cats) {
             
             i++;
             if (i == 3) {
-                $li.appendTo("#admin-panel-slider ul");
+                $li.appendTo("#admin-panel-summary ul");
                 
                 i = 0;
                 $li = $("<li style='display: none'></li>");
@@ -130,26 +140,109 @@ function renderCategories(cats) {
         });
         
         if (i > 0) {
-            $li.appendTo("#admin-panel-slider ul");
+            while (i < 3) {
+                $li.append('<div class="admin-panel-cat"></div>');
+                i++;
+            }
+            
+            $li.appendTo("#admin-panel-summary ul");
         }
         
         // keskitetään pallojen teksti pystysuunnassa
         centerBallsText();
         
-        $("#admin-panel-slider li:first").css("display", "block");
+        $("#admin-panel-summary li:first").css("display", "block");
         
-        if ( Modernizr.csstransforms ) {
-            window.swipe = new Swipe(document.getElementById('admin-panel-slider'));
+        if (Modernizr.csstransforms) {
+            window.swipe = new Swipe(document.getElementById('admin-panel-summary'));
         }
+        
+        if (!Modernizr.touch) {
+            $("#admin-panel-arrows-container").show();
+        }
+        
+        /* haetaan kaavioiden data ja renderöidään se näytölle */
+        renderCharts(ajaxCall('getstaffchartdata'));
     });
     
 }
 
-function scaleBalls() {
-    
+function renderCharts(charts) {
+    charts.success(function(data) {
+        if(data.status != 0){
+            $.each(data.categories, function(i,item){
+                $('#plots').append('<div class="admin-panel-cat-chart"><div id="plot'+item.catid+'" class="chart-wrapper"><div class="chart-data"><h3 class="category-title">'+item.catname+'</h3><div class="plot" style="width:600px;height:300px;"></div></div></div></div>');        
+                
+                var dNegative = [];
+                var dNeutral = [];
+                var dPositive = [];
+
+                $.each(item.dates, function(i,item){
+                    dNegative.push([item.date*1000, item.negativepercent]);
+                    dNeutral.push([item.date*1000, item.neutralpercent]);
+                    dPositive.push([item.date*1000, item.positivepercent]);
+                });
+
+                createPlot('plot'+item.catid, dNegative, dNeutral, dPositive);
+            });
+            
+            $('#plots').find('.plot').prepend('<div class="thumbs-wrapper"><img src="/staff/img/icon_like_positive_active.png"><img src="/staff/img/icon_like_neutral_active.png"><img src="/staff/img/icon_like_negative_active.png"></div>');
+        }else{
+            $.each(data.errors, function(i,item){
+                alert(item);
+            });
+        }
+    });
 }
 
-/* helper functions */
+/**
+* Function for creating a plot
+* @param d1 First data array
+* @param d2 Second data array
+* @param d3 Third data array
+*/
+function createPlot(element, d1, d2, d3){
+       d1 = UTCcorrection(d1, 2);
+       d2 = UTCcorrection(d2, 2);
+       d3 = UTCcorrection(d3, 2);
+
+       $.plot(
+               $("#"+element+' div.plot'), 
+               [ 
+                       {label: 'Negative', data: d1, color:'#c5c6c8'}, 
+                       {label:'Neutral', data:d2, color:'#f0eaa4'}, 
+                       {label:'Positive', data:d3, color:'#c4d691'} 
+               ], {
+               series: {
+                       stack: 0,
+                       lines: { show: true, fill: true }
+               },
+               xaxis: { 
+                       mode: "time",
+                       timeformat: "%d.%m",
+                       color: "#FFF"
+               },
+               yaxis: {
+                       min: 0,
+                       max: 100
+               }
+       });
+}
+
+/**
+* Flot always display time as UTC0, so we're correcting the time by given correction
+* @param data Array of data
+* @param correction Correction as hour
+* @return Array of the corrected array
+*/
+function UTCcorrection(data, correction){
+       for(var i = 0; i < data.length; ++i){
+               data[i][0] += 60 * 60 * 1000 * correction;
+       }
+       return data;
+}
+
+/* Helper functions */
     
 function ajaxCall(act, email, password) {
     

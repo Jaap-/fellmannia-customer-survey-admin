@@ -36,11 +36,9 @@
         
         <div id="admin-panel-container">
             <div id="admin-panel-menu">
-                <a href="#" id="prev" onclick="window.swipe.prev();return false;"><em>prev</em></a>
-                <div class="admin-menu-link-wrapper"><a class="admin-menu-link" href="#">Yhteenveto</a></div>
-                <div class="admin-menu-link-wrapper"><a class="admin-menu-link" href="#">Yhteenveto</a></div>
-                <div class="admin-menu-link-wrapper"><a class="admin-menu-link" href="#">Diagrammi</a></div>
-                <a href="#" id="next" onclick="window.swipe.next();return false;"><em>next</em></a>
+                <div class="admin-menu-link-wrapper"><a class="admin-menu-link" href="#summary">Yhteenveto</a></div>
+                <div class="admin-menu-link-wrapper"><a class="admin-menu-link" href="#summary">Yhteenveto</a></div>
+                <div class="admin-menu-link-wrapper"><a class="admin-menu-link" href="#chart">Diagrammi</a></div>
             </div>
             
             <div id="admin-panel-button-container">
@@ -51,9 +49,18 @@
                 </div>
             </div>
             
-            <div id="admin-panel-slider">
+            <div id="admin-panel-arrows-container">
+                <div class="arrow prev" onclick="window.swipe.prev();return false;"><a href="#"><span>Edellinen</span></a></div>
+                <div class="arrow next" onclick="window.swipe.next();return false;"><a href="#"><span>Seuraava</span></a></div>
+            </div>
+            
+            <div id="admin-panel-summary" class="admin-view">
                 <ul>
                 </ul>
+            </div>
+            
+            <div id="admin-panel-chart" class="admin-view">
+                <div id="plots"></div>
             </div>
         </div>
 
@@ -63,6 +70,8 @@
         <script src="js/main.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/swipe.js"></script>
+        <script src="js/jquery.flot.js"></script>
+        <script src="js/jquery.flot.stack.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
