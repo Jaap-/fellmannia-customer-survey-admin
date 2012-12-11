@@ -22,22 +22,59 @@ $(document).ready(function() {
         doLogin();
     });
     
-    test("fuu", "faa", "fee");
-    
     $(".sort-button-wrapper .admin-panel-button").click(function() {
-        $(".button-wrapper .admin-panel-button").removeClass("act");
+        $(".sort-button-wrapper .admin-panel-button").removeClass("act");
         $(this).addClass("act");
         
         return false;
     });
     
     /* menun klikkailut */
-    $("#admin-panel-menu a.admin-menu-link").click(function(event) {
+    $("#admin-panel-menu a.app-link").click(function(event) {
         event.preventDefault();
         var href = $(this).attr("href").split("#")[1];
         
         $(".admin-view").hide();
         $("#admin-panel-" + href).show();
+        
+        if ($("#admin-panel-summary").is(":hidden")) {
+            $("#admin-panel-arrows-container").hide();
+        } else {
+            $("#admin-panel-arrows-container").show();
+        }
+    });
+    
+    /* näytä palautteet */
+    $("#admin-panel-container").on("click", "div.show-comments", function() {
+        var catid = $(this).parent(".admin-panel-cat").attr("id");
+        var catname = $(this).prev(".admin-panel-cat-content").find(".category-title").text();
+        
+        renderComments(ajaxCall('getcomments', catid), catname);
+    });
+    
+    /* paluu palautteiden tarkastelusta */
+    $("#admin-panel-container").on("click", "a.back-link", function(event) {
+        event.preventDefault();
+        
+        $("#admin-panel-comments").remove();
+        $("#admin-panel-summary").show();
+        $("#admin-panel-arrows-container").show();
+        renderCategories(ajaxCall('getstaffdata'));
+    });
+    
+    /* palautteiden poisto */
+    $("#admin-panel-container").on("click", "div.button-delete", function() {
+        var id = $(this).parent("div.comment-container").attr("id");
+        
+        ajaxCall('deletecomment', id).success(function(data) {
+            if (data.status != 0) {
+                $("#admin-panel-comments #"+id).remove();
+            } else {
+                $.each(data.errors, function(i,item){
+                    alert(item);
+                });
+            }
+        });
     });
     
     /* ikkunan koon muuttuessa.. */
@@ -104,7 +141,7 @@ function renderCategories(cats) {
                             '<div class="negative">Negatiivisia:<span class="num">'+this.stats.countnegative+'</span></div>\n',
                         '</div>\n',
                     '</div>\n',
-                    '<div class="admin-panel-button"><span>Näytä palautteet</span></div>\n',
+                    '<div class="admin-panel-button show-comments"><span>Näytä palautteet</span></div>\n',
                 '</div>\n'
             ].join("");
             
@@ -173,8 +210,18 @@ function renderCategories(cats) {
 function renderCharts(charts) {
     charts.success(function(data) {
         if(data.status != 0){
+             var plot = {
+                 width: 600,
+                 height: 300
+             };
+             console.log($(window).width());
+             if (parseInt($("window").width()) < 600) {
+                 plot.width = 400;
+                 plot.height = 200;
+             }
+           
             $.each(data.categories, function(i,item){
-                $('#plots').append('<div class="admin-panel-cat-chart"><div id="plot'+item.catid+'" class="chart-wrapper"><div class="chart-data"><h3 class="category-title">'+item.catname+'</h3><div class="plot" style="width:600px;height:300px;"></div></div></div></div>');        
+                $('#plots').append('<div class="admin-panel-cat-chart"><div id="plot'+item.catid+'" class="chart-wrapper"><div class="chart-data"><h3 class="category-title">'+item.catname+'</h3><div class="plot" style="width:'+plot.width+'px;height:'+plot.height+'px;"></div></div></div></div>');        
                 
                 var dNegative = [];
                 var dNeutral = [];
@@ -195,6 +242,27 @@ function renderCharts(charts) {
                 alert(item);
             });
         }
+    });
+}
+
+function renderComments(comments, catname) {
+    comments.success(function(data) {
+        $("#admin-panel-container").append('<div id="admin-panel-comments"><div id="comments-menu"><div class="button-back"><a class="back-link" href="#">&lsaquo;</a></div><h3>Palautteet - '+catname+'</h3></div><div class="comments-wrapper"></div></div>');
+        
+        if (data.status != 0) {
+            $.each(data.comments, function(i,item){
+                var d = new Date(item.timestamp * 1000);
+                var month = d.getMonth()+1;
+                var dateTime = d.getDate()+"."+month+"."+d.getFullYear()+" klo "+("0" + d.getHours()).slice(-2)+":"+("0" + d.getMinutes()).slice(-2);
+                var likes = item.thumbcountplus+" tykkää<br>"+item.thumbcountminus+" ei tykkää"
+                
+                $("#admin-panel-comments .comments-wrapper").append('<div id="'+item.id+'" class="comment-container"><div class="comment-data"><p class="comment">'+item.text+'</p><p class="date white">'+dateTime+'</p><p class="thumbs white">'+likes+'</p></div><div class="button-delete">	 –  </div></div>');
+            });
+        }
+        
+        $("#admin-panel-arrows-container").hide();
+        $("#admin-panel-summary").hide();
+        $("#admin-panel-summary li").remove();
     });
 }
 
@@ -247,16 +315,25 @@ function UTCcorrection(data, correction){
 
 /* Helper functions */
     
-function ajaxCall(act, email, password) {
+function ajaxCall() {
+    
+    var data = {
+        act: arguments[0]
+    };
+    
+    if (data.act == 'login') {
+        data.email = arguments[1];
+        data.password = arguments[2];
+    } else if (data.act == 'getcomments') {
+        data.catid = arguments[1];
+    } else if (data.act == 'deletecomment') {
+        data.id = arguments[1];
+    }
     
     return $.ajax({
 
         url: window.serverUrl,
-        data: {
-            act: act,
-            email: email,
-            password: password
-        },
+        data: data,
         type: "GET",
         dataType: 'jsonp',
         crossDomain: true,
@@ -264,12 +341,6 @@ function ajaxCall(act, email, password) {
 
     });
 
-}
-
-function test() {
-	for( var i = 0; i < arguments.length; i++ ) {
-		console.log("This accident was caused by " + arguments[i]);
-	}
 }
 
 function getIconImgUrl(data) {
