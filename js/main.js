@@ -22,8 +22,10 @@ $(document).ready(function() {
         doLogin();
     });
     
-    $(".admin-panel-button").click(function() {
-        $(".admin-panel-button").removeClass("act");
+    test("fuu", "faa", "fee");
+    
+    $(".sort-button-wrapper .admin-panel-button").click(function() {
+        $(".button-wrapper .admin-panel-button").removeClass("act");
         $(this).addClass("act");
         
         return false;
@@ -85,7 +87,7 @@ function renderCategories(cats) {
         
         $.each(data.categories, function() {
             var html = [
-                '<div class="admin-panel-cat">\n',
+                '<div id="'+this.catid+'" class="admin-panel-cat">\n',
                     '<div class="admin-panel-cat-content">\n',
                         '<h3 class="category-title">'+this.catname+'</h3>\n',
                         '<div class="content-balls-wrapper">\n',
@@ -102,6 +104,7 @@ function renderCategories(cats) {
                             '<div class="negative">Negatiivisia:<span class="num">'+this.stats.countnegative+'</span></div>\n',
                         '</div>\n',
                     '</div>\n',
+                    '<div class="admin-panel-button"><span>Näytä palautteet</span></div>\n',
                 '</div>\n'
             ].join("");
             
@@ -261,6 +264,12 @@ function ajaxCall(act, email, password) {
 
     });
 
+}
+
+function test() {
+	for( var i = 0; i < arguments.length; i++ ) {
+		console.log("This accident was caused by " + arguments[i]);
+	}
 }
 
 function getIconImgUrl(data) {

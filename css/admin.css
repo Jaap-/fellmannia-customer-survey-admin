@@ -104,9 +104,14 @@ a.admin-menu-link {
     );
 }
 
-.button-wrapper {
+.sort-button-wrapper {
     margin: auto;
     width: 540px;
+}
+
+.sort-button-wrapper .admin-panel-button {
+    float: left;
+    margin: 0px 15px 0px 15px;
 }
 
 .admin-panel-button {
@@ -135,7 +140,7 @@ a.admin-menu-link {
     
     height: 28px;
     width: 150px;
-    margin: 0px 15px 0px 15px;
+    margin: 0 auto;
     text-align: center;
     color: #A9AAAD;
     font-family: 'Antic Slab', serif;
@@ -143,7 +148,6 @@ a.admin-menu-link {
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;
-    float: left;
 }
 
 .admin-panel-button span {
