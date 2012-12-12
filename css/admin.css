@@ -19,6 +19,16 @@
     width: 200px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 100px;
+    font-family: 'Antic Slab', serif;
+}
+
+#login-box h3 {
+    margin-bottom: 15px;
+}
+
+#login-submit {
+    margin-top: 10px;
 }
 
 #admin-panel-container {

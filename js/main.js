@@ -122,87 +122,96 @@ function renderCategories(cats) {
         var i = 0;
         var $li = $("<li style='display: none'></li>");
         
-        $.each(data.categories, function() {
-            var html = [
-                '<div id="'+this.catid+'" class="admin-panel-cat">\n',
-                    '<div class="admin-panel-cat-content">\n',
-                        '<h3 class="category-title">'+this.catname+'</h3>\n',
-                        '<div class="content-balls-wrapper">\n',
-                            '<div class="sphere green clearfix"><p>'+this.stats.positivepercent+'%</p></div>\n',
-                            '<div class="sphere yellow clearfix"><p>'+this.stats.neutralpercent+'%</p></div>\n',
-                            '<div class="sphere grey clearfix"><p>'+this.stats.negativepercent+'%</p></div>\n',
-                        '</div>\n',
-                        '<div class="category-thumb"><img src="'+getIconImgUrl(this.stats)+'" /></div>\n',
-                        '<div class="category-data">\n',
-                            '<div>Palautteita yhteensä:<span class="num">'+this.stats.count+'</span></div>\n',
-                            '<div>joista</div>\n',
-                            '<div class="positive">Positiivisia:<span class="num">'+this.stats.countpositive+'</span></div>\n',
-                            '<div class="neutral">Neutraaleja:<span class="num">'+this.stats.countneutral+'</span></div>\n',
-                            '<div class="negative">Negatiivisia:<span class="num">'+this.stats.countnegative+'</span></div>\n',
-                        '</div>\n',
-                    '</div>\n',
-                    '<div class="admin-panel-button show-comments"><span>Näytä palautteet</span></div>\n',
-                '</div>\n'
-            ].join("");
-            
-            var $cat = $(html);
-            
-            // lasketaan pallojen korkeudet taulukkoon
-            var heights = calcBallSizes(this.stats);
+        ajaxCall('logincheck').success(function(loginData) {
+            if (loginData.status != 0) {
+                $.each(data.categories, function() {
+                    var html = [
+                        '<div id="'+this.catid+'" class="admin-panel-cat">\n',
+                            '<div class="admin-panel-cat-content">\n',
+                                '<h3 class="category-title">'+this.catname+'</h3>\n',
+                                '<div class="content-balls-wrapper">\n',
+                                    '<div class="sphere green clearfix"><p>'+this.stats.positivepercent+'%</p></div>\n',
+                                    '<div class="sphere yellow clearfix"><p>'+this.stats.neutralpercent+'%</p></div>\n',
+                                    '<div class="sphere grey clearfix"><p>'+this.stats.negativepercent+'%</p></div>\n',
+                                '</div>\n',
+                                '<div class="category-thumb"><img src="'+getIconImgUrl(this.stats)+'" /></div>\n',
+                                '<div class="category-data">\n',
+                                    '<div>Palautteita yhteensä:<span class="num">'+this.stats.count+'</span></div>\n',
+                                    '<div>joista</div>\n',
+                                    '<div class="positive">Positiivisia:<span class="num">'+this.stats.countpositive+'</span></div>\n',
+                                    '<div class="neutral">Neutraaleja:<span class="num">'+this.stats.countneutral+'</span></div>\n',
+                                    '<div class="negative">Negatiivisia:<span class="num">'+this.stats.countnegative+'</span></div>\n',
+                                '</div>\n',
+                            '</div>\n',
+                            '<div class="admin-panel-button show-comments"><span>Näytä palautteet</span></div>\n',
+                        '</div>\n'
+                    ].join("");
 
-            // asetetaan pallojen koot
-            $cat.find("div.green").css({
-                "width": (this.stats.positivepercent < settings.minsize) ? settings.minsize + "%" : this.stats.positivepercent + "%",
-                "height": heights['positivepercent'] + "px",
-                "font-size": scaleFontSize(this.stats.positivepercent) + "px"
-            });
+                    var $cat = $(html);
 
-            $cat.find("div.yellow").css({
-                "width": (this.stats.neutralpercent < settings.minsize) ? settings.minsize + "%" : this.stats.neutralpercent + "%",
-                "height": heights['neutralpercent'] + "px",
-                "font-size": scaleFontSize(this.stats.neutralpercent) + "px"
-            });
-            
-            $cat.find("div.grey").css({
-                "width": (this.stats.negativepercent < settings.minsize) ? settings.minsize + "%" : this.stats.negativepercent + "%",
-                "height": heights['negativepercent'] + "px",
-                "font-size": scaleFontSize(this.stats.negativepercent) + "px"
-            });
-            $li.append($cat);
-            
-            i++;
-            if (i == 3) {
-                $li.appendTo("#admin-panel-summary ul");
-                
-                i = 0;
-                $li = $("<li style='display: none'></li>");
+                    // lasketaan pallojen korkeudet taulukkoon
+                    var heights = calcBallSizes(this.stats);
+
+                    // asetetaan pallojen koot
+                    $cat.find("div.green").css({
+                        "width": (this.stats.positivepercent < settings.minsize) ? settings.minsize + "%" : this.stats.positivepercent + "%",
+                        "height": heights['positivepercent'] + "px",
+                        "font-size": scaleFontSize(this.stats.positivepercent) + "px"
+                    });
+
+                    $cat.find("div.yellow").css({
+                        "width": (this.stats.neutralpercent < settings.minsize) ? settings.minsize + "%" : this.stats.neutralpercent + "%",
+                        "height": heights['neutralpercent'] + "px",
+                        "font-size": scaleFontSize(this.stats.neutralpercent) + "px"
+                    });
+
+                    $cat.find("div.grey").css({
+                        "width": (this.stats.negativepercent < settings.minsize) ? settings.minsize + "%" : this.stats.negativepercent + "%",
+                        "height": heights['negativepercent'] + "px",
+                        "font-size": scaleFontSize(this.stats.negativepercent) + "px"
+                    });
+                    $li.append($cat);
+
+                    i++;
+                    if (i == 3) {
+                        $li.appendTo("#admin-panel-summary ul");
+
+                        i = 0;
+                        $li = $("<li style='display: none'></li>");
+                    }
+                });
+
+                if (i > 0) {
+                    while (i < 3) {
+                        $li.append('<div class="admin-panel-cat"></div>');
+                        i++;
+                    }
+
+                    $li.appendTo("#admin-panel-summary ul");
+                }
+
+                // keskitetään pallojen teksti pystysuunnassa
+                centerBallsText();
+
+                $("#admin-panel-summary li:first").css("display", "block");
+
+                if (Modernizr.csstransforms) {
+                    window.swipe = new Swipe(document.getElementById('admin-panel-summary'));
+                }
+
+                if (!Modernizr.touch) {
+                    $("#admin-panel-arrows-container").show();
+                }
+
+                /* haetaan kaavioiden data ja renderöidään se näytölle */
+                renderCharts(ajaxCall('getstaffchartdata'));
+            } else {
+                $("#login-box-container").show();
+                $("#admin-panel-container").hide();
             }
         });
         
-        if (i > 0) {
-            while (i < 3) {
-                $li.append('<div class="admin-panel-cat"></div>');
-                i++;
-            }
-            
-            $li.appendTo("#admin-panel-summary ul");
-        }
         
-        // keskitetään pallojen teksti pystysuunnassa
-        centerBallsText();
-        
-        $("#admin-panel-summary li:first").css("display", "block");
-        
-        if (Modernizr.csstransforms) {
-            window.swipe = new Swipe(document.getElementById('admin-panel-summary'));
-        }
-        
-        if (!Modernizr.touch) {
-            $("#admin-panel-arrows-container").show();
-        }
-        
-        /* haetaan kaavioiden data ja renderöidään se näytölle */
-        renderCharts(ajaxCall('getstaffchartdata'));
     });
     
 }
@@ -214,7 +223,7 @@ function renderCharts(charts) {
                  width: 600,
                  height: 300
              };
-             console.log($(window).width());
+             
              if (parseInt($("window").width()) < 600) {
                  plot.width = 400;
                  plot.height = 200;
@@ -247,22 +256,33 @@ function renderCharts(charts) {
 
 function renderComments(comments, catname) {
     comments.success(function(data) {
-        $("#admin-panel-container").append('<div id="admin-panel-comments"><div id="comments-menu"><div class="button-back"><a class="back-link" href="#">&lsaquo;</a></div><h3>Palautteet - '+catname+'</h3></div><div class="comments-wrapper"></div></div>');
-        
-        if (data.status != 0) {
-            $.each(data.comments, function(i,item){
-                var d = new Date(item.timestamp * 1000);
-                var month = d.getMonth()+1;
-                var dateTime = d.getDate()+"."+month+"."+d.getFullYear()+" klo "+("0" + d.getHours()).slice(-2)+":"+("0" + d.getMinutes()).slice(-2);
-                var likes = item.thumbcountplus+" tykkää<br>"+item.thumbcountminus+" ei tykkää"
-                
-                $("#admin-panel-comments .comments-wrapper").append('<div id="'+item.id+'" class="comment-container"><div class="comment-data"><p class="comment">'+item.text+'</p><p class="date white">'+dateTime+'</p><p class="thumbs white">'+likes+'</p></div><div class="button-delete">	 –  </div></div>');
-            });
-        }
-        
-        $("#admin-panel-arrows-container").hide();
-        $("#admin-panel-summary").hide();
         $("#admin-panel-summary li").remove();
+        $("#plots .admin-panel-cat-chart").remove();
+                
+        ajaxCall('logincheck').success(function(loginData) {
+            if (loginData.status != 0) {
+                $("#admin-panel-container").append('<div id="admin-panel-comments"><div id="comments-menu"><div class="button-back"><a class="back-link" href="#">&lsaquo;</a></div><h3>Palautteet - '+catname+'</h3></div><div class="comments-wrapper"></div></div>');
+        
+                if (data.status != 0) {
+                    $.each(data.comments, function(i,item){
+                        var d = new Date(item.timestamp * 1000);
+                        var month = d.getMonth()+1;
+                        var dateTime = d.getDate()+"."+month+"."+d.getFullYear()+" klo "+("0" + d.getHours()).slice(-2)+":"+("0" + d.getMinutes()).slice(-2);
+                        var likes = item.thumbcountplus+" tykkää<br>"+item.thumbcountminus+" ei tykkää"
+
+                        $("#admin-panel-comments .comments-wrapper").append('<div id="'+item.id+'" class="comment-container"><div class="comment-data"><p class="comment">'+item.text+'</p><p class="date white">'+dateTime+'</p><p class="thumbs white">'+likes+'</p></div><div class="button-delete">	 –  </div></div>');
+                    });
+                }
+
+                $("#admin-panel-arrows-container").hide();
+                $("#admin-panel-summary").hide();
+            } else {
+                $("#login-box-container").show();
+                $("#admin-panel-container").hide();
+            }
+        });
+        
+        
     });
 }
 
