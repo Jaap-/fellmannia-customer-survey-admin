@@ -1,0 +1,95 @@
+/*
+ * Fellmannia Customer Survey
+ * Styles for icons
+ */
+
+div.icon-fellmannia-big{
+	background:url(../img/icon_fellmannia_big.png) no-repeat;
+	width:183px;
+	height:305px;
+}
+div.icon-fellmannia{
+	background:url(../img/icon_fellmannia.png) no-repeat;
+	width:100px;
+	height:168px;
+}
+div.icon-fellmannia2{
+	background:url(../img/icon_fellmannia2.png) no-repeat;
+	width:80px;
+	height:57px;
+}
+div.icon-map-big{
+	background:url(../img/icon_map_big.png) no-repeat;
+	width:183px;
+	height:305px;
+}
+div.icon-info-big{
+	background:url(../img/icon_info_big.png) no-repeat;
+	width:80px;
+	height:80px;
+}
+div.icon-info{
+	background:url(../img/icon_info.png) no-repeat;
+	width:35px;
+	height:35px;
+}
+div.icon-lahti{
+	background:url(../img/icon_lahti.png) no-repeat;
+	width:85px;
+	height:85px;
+}
+div.icon-matkahuolto{
+	background:url(../img/icon_matkahuolto.png) no-repeat;
+	width:85px;
+	height:85px;
+}
+div.icon-vr{
+	background:url(../img/icon_vr.png) no-repeat;
+	width:85px;
+	height:85px;
+}
+div.icon-addcomment-draw{
+	background:url(../img/icon_addcomment_draw.png) no-repeat;
+	width:180px;
+	height:112px;
+}
+div.icon-like-draw{
+	background:url(../img/icon_like_draw.png) no-repeat;
+	width:540px;
+	height:203px;
+}
+div.icon-feedback-draw{
+	background:url(../img/icon_feedback_draw.png) no-repeat;
+	width:180px;
+	height:203px;
+}
+div.icon-like-positive{
+	background:url(../img/icon_like_positive.png) no-repeat;
+	width:80px;
+	height:88px;
+}
+div.icon-like-positive-active{
+	background:url(../img/icon_like_positive_active.png) no-repeat;
+	width:80px;
+	height:88px;
+}
+div.icon-like-neutral{
+	background:url(../img/icon_like_neutral.png) no-repeat;
+	width:88px;
+	height:80px;
+}
+div.icon-like-neutral-active{
+	background:url(../img/icon_like_neutral_active.png) no-repeat;
+	width:88px;
+	height:80px;
+}
+div.icon-like-negative{
+	background:url(../img/icon_like_negative.png) no-repeat;
+	width:80px;
+	height:88px;
+}
+div.icon-like-negative-active{
+	background:url(../img/icon_like_negative_active.png) no-repeat;
+	width:80px;
+	height:88px;
+}
